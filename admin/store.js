@@ -10,7 +10,7 @@ function Store(path) {
 		resources: {
 			test: {
 				name: 'test',
-				path: '/path',
+				path: '/test',
 				desc: 'This is a default resource for test',
 				model: {},
 				methods: {
