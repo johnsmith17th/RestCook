@@ -19,6 +19,8 @@ block content
 						.resource-name #{x.name}
 						.resource-desc #{x.desc}
 				td.resource-methods
+					if x.methods.index
+						a(href='/resource/methods/index') index
 					if x.methods.get
 						a(href='/resource/methods/get') get
 					if x.methods.post
@@ -26,11 +28,7 @@ block content
 					if x.methods.put
 						a(href='/resource/methods/put') put
 					if x.methods.delete
-						a(href='/resource/methods/delete') delete
-					if x.methods.index
-						a(href='/resource/methods/index') index
-					if x.methods.query
-						a(href='/resource/methods/query') query
+						a(href='/resource/methods/delete') delete					
 				td.resource-manage
 					a(href='/resource') basic
 					a(href='/resource/model') model
