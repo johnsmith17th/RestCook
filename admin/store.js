@@ -43,7 +43,12 @@ function Store(path) {
 
 Store.prototype.resources = function() {
 	return this.config.resources;
-}
+};
+
+Store.prototype.getResource = function(name) {
+	var res = this.config.resources[name];
+	return res ? res : null;
+};
 
 Store.prototype.createResource = function(name, fn) {
 	if (this.config.resources[name] === undefined) {
@@ -64,6 +69,6 @@ Store.prototype.createResource = function(name, fn) {
 		this.save(fn);
 	}
 	return this;
-}
+};
 
 module.exports = Store;

@@ -40,5 +40,13 @@ app.post('/resource', function(req, res) {
 });
 
 app.get('/resource', function(req, res) {
-	// body...
+	var name = req.param('res');
+	var resource = store.getResource(name);
+	if (resource) {
+		res.render('basic', {
+			resource: resource
+		});
+	} else {
+		res.render('404');
+	}
 });
