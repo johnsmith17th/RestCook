@@ -20,16 +20,21 @@ block content
 						.resource-desc #{x.desc}
 				td.resource-methods
 					if x.methods.index
-						a(href='/resource/methods/index') index
+						a(href='/resource/method?res=#{x.name}&act=index')
+							|index
 					if x.methods.get
-						a(href='/resource/methods/get') get
+						a(href='/resource/method?res=#{x.name}&act=get')
+							|get
 					if x.methods.post
-						a(href='/resource/methods/post') post
+						a(href='/resource/method?res=#{x.name}&act=post')
+							|post
 					if x.methods.put
-						a(href='/resource/methods/put') put
+						a(href='/resource/method?res=#{x.name}&act=put')
+							|put
 					if x.methods.delete
-						a(href='/resource/methods/delete') delete					
+						a(href='/resource/method?res=#{x.name}&act=delete')
+							|delete					
 				td.resource-manage
-					a(href='/resource') basic
-					a(href='/resource/model') model
-					a(href='/resource/methods') methods
+					a(href='/resource?res=#{x.name}') basic
+					a(href='/resource/model?res=#{x.name}') model
+					a(href='/resource/methods?res=#{x.name}') methods
