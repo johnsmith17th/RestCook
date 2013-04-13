@@ -1,0 +1,19 @@
+!!!5
+html
+	head
+		title RestCook
+		link(rel='stylesheet', href='/css/bootstrap.min.css')
+		link(rel='stylesheet', href='/css/bootstrap-responsive.min.css')
+		link(rel='stylesheet', href='/css/site.css')
+		script(type='text/javascript', src='/js/jquery-1.9.0.min.js')
+		script(type='text/javascript', src='/js/bootstrap.min.js')
+		style
+			body { padding-top: 60px; }
+		block head
+	body
+		.navbar.navbar-inverse.navbar-fixed-top
+			.navbar-inner
+				.container
+					a.brand(href='/') RestCook
+		.container
+			block content

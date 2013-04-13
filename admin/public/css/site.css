@@ -1,0 +1,13 @@
+body {
+	padding-top: 60px;
+}
+
+.resource-name {
+	font-size: 18px;
+	font-weight: bold;
+	margin: 5px 0;
+}
+
+.resource-desc {
+	margin: 5px 0;
+}

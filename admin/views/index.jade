@@ -1,0 +1,24 @@
+extends layout
+
+block content
+	h1 Resources
+	div
+		form.form-inline(action='resource', method='post')
+			input.span4(type='text', name='resourceName', placeholder='Resource name')
+			span &nbsp;&nbsp;
+			button.btn.btn-primary(type='submit') Create Resources
+	table.table.table-hover.table-bordered
+		tr
+			th Resource
+			th Methods
+		for x in resources
+			tr
+				td
+					div
+						.resource-name #{x.name}
+						.resource-desc #{x.desc}
+				td
+					if x.methods.get
+						span get
+					if x.methods.post
+						span post
