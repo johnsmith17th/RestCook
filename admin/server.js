@@ -1,8 +1,9 @@
 /**
  * Module dependencies.
  */
-var express = require('express');
-var Store = require('./store');
+var express = require('express'),
+	Store = require('./store'),
+	errors = require('./errors');
 
 var app = module.exports = express(),
 	store = new Store('config.json');
@@ -47,6 +48,27 @@ app.get('/resource', function(req, res) {
 			resource: resource
 		});
 	} else {
-		res.render('404');
+		res.render('error', errors.e404);
 	}
+});
+
+app.put('/resource', function(req, res) {
+	var name = req.param('resourceName');
+	var opt = {
+		path: req.param('resourcePath'),
+		desc: req.param('resourceDesc'),
+		methods: {
+			index: req.param('methodIndex'),
+			get: req.param('methodGet'),
+			post: req.param('methodPost'),
+			put: req.param('methodPut'),
+			delete: req.param('methodDelete')
+		}
+	}
+	store.updateResource(name, opt, function(err) {
+		if (err) {
+			console.log(err);
+		}
+		res.redirect('/');
+	});
 });
