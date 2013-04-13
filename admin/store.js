@@ -1,4 +1,5 @@
-var fs = require('fs');
+var fs = require('fs'),
+	util = require('util');
 
 function Store(path) {
 
@@ -19,6 +20,14 @@ function Store(path) {
 		return 'This is a resource named ' + name;
 	};
 
+	function __method(resource, method) {
+		return {
+			enable: true,
+			desc: util.format('method %s of resource %s', method, resource),
+			params: {}
+		};
+	}
+
 	function __res(name) {
 		var key = __name(name);
 		return {
@@ -27,11 +36,11 @@ function Store(path) {
 			desc: __desc(key),
 			model: {},
 			methods: {
-				index: {},
-				get: {},
-				post: {},
-				put: {},
-				delete: {}
+				index: __method(key, 'index'),
+				get: __method(key, 'get'),
+				post: __method(key, 'post'),
+				put: __method(key, 'put'),
+				delete: __method(key, 'delete')
 			}
 		};
 	};
@@ -62,6 +71,7 @@ function Store(path) {
 	this.__name = __name;
 	this.__path = __path;
 	this.__desc = __desc;
+	this.__method = __method;
 	this.__res = __res;
 }
 
@@ -86,46 +96,13 @@ Store.prototype.createResource = function(name, fn) {
 Store.prototype.updateResource = function(name, opt, fn) {
 	var res = this.config.resources[name];
 	if (res && opt) {
-		// set path
 		res.path = opt.path ? opt.path : this.__path(res.name);
-		// set desc
 		res.desc = opt.desc ? opt.desc : this.__desc(res.name);
-
-		// set method index
-		if (opt.methods.index && !res.methods.index) {
-			res.methods.index = {};
-		} else if (!opt.methods.index && res.methods.index) {
-			delete res.methods['index'];
-		}
-
-		// set method get
-		if (opt.methods.get && !res.methods.get) {
-			res.methods.get = {};
-		} else if (!opt.methods.get && res.methods.get) {
-			delete res.methods['get'];
-		}
-
-		// set method post
-		if (opt.methods.post && !res.methods.post) {
-			res.methods.post = {};
-		} else if (!opt.methods.post && res.methods.post) {
-			delete res.methods['post'];
-		}
-
-		// set method put
-		if (opt.methods.put && !res.methods.put) {
-			res.methods.put = {};
-		} else if (!opt.methods.put && res.methods.put) {
-			delete res.methods['put'];
-		}
-
-		// set method delete
-		if (opt.methods['delete'] && !res.methods['delete']) {
-			res.methods['delete'] = {};
-		} else if (!opt.methods['delete'] && res.methods['delete']) {
-			delete res.methods['delete'];
-		}
-
+		res.methods['index'].enable = (opt.methods['index'] != undefined);
+		res.methods['get'].enable = (opt.methods['get'] != undefined);
+		res.methods['post'].enable = (opt.methods['post'] != undefined);
+		res.methods['put'].enable = (opt.methods['put'] != undefined);
+		res.methods['delete'].enable = (opt.methods['delete'] != undefined);
 		this.config.version++;
 		this.save(fn);
 	} else {

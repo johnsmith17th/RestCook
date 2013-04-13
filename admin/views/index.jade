@@ -19,19 +19,19 @@ block content
 						.resource-name #{x.name}
 						.resource-desc #{x.desc}
 				td.resource-methods
-					if x.methods.index
+					if x.methods.index.enable
 						a(href='/resource/method?res=#{x.name}&act=index')
 							|index
-					if x.methods.get
+					if x.methods.get.enable
 						a(href='/resource/method?res=#{x.name}&act=get')
 							|get
-					if x.methods.post
+					if x.methods.post.enable
 						a(href='/resource/method?res=#{x.name}&act=post')
 							|post
-					if x.methods.put
+					if x.methods.put.enable
 						a(href='/resource/method?res=#{x.name}&act=put')
 							|put
-					if x.methods.delete
+					if x.methods.delete.enable
 						a(href='/resource/method?res=#{x.name}&act=delete')
 							|delete					
 				td.resource-manage

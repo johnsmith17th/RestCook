@@ -28,7 +28,7 @@ block content
 			p Select the methods that allow to access
 
 			label.checkbox
-				if resource.methods.index
+				if resource.methods.index.enable
 					input#checkboxIndex(
 						type='checkbox', name='methodIndex', value='index', checked)
 				else
@@ -38,7 +38,7 @@ block content
 				span &nbsp;- to query and get a list of resource
 
 			label.checkbox
-				if resource.methods.get
+				if resource.methods.get.enable
 					input#checkboxGet(
 						type='checkbox', name='methodGet', value='get', checked)
 				else
@@ -48,7 +48,7 @@ block content
 				span &nbsp;- to get detail of resource
 
 			label.checkbox
-				if resource.methods.post
+				if resource.methods.post.enable
 					input#checkboxPost(
 						type='checkbox', name='methodPost', value='post', checked)
 				else
@@ -58,7 +58,7 @@ block content
 				span &nbsp;- to create new resource
 
 			label.checkbox
-				if resource.methods.put
+				if resource.methods.put.enable
 					input#checkboxPut(
 						type='checkbox', name='methodPut', value='put', checked)
 				else
@@ -68,7 +68,7 @@ block content
 				span &nbsp;- to update resource
 
 			label.checkbox
-				if resource.methods.delete
+				if resource.methods.delete.enable
 					input#checkboxDelete(
 						type='checkbox', name='methodDelete', value='delete', checked)
 				else
