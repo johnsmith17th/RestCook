@@ -13,12 +13,12 @@ body {
 }
 
 td.resource-methods {
-	width: 320px;
+	width: 200px;
 	vertical-align: middle;
 }
 
 td.resource-manage {
-	width: 160px;
+	width: 100px;
 	vertical-align: middle;
 }
 
