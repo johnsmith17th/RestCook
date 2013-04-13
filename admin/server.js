@@ -58,7 +58,6 @@ app.put('/resource', function(req, res) {
 		path: req.param('resourcePath'),
 		desc: req.param('resourceDesc'),
 		methods: {
-			index: req.param('methodIndex'),
 			get: req.param('methodGet'),
 			post: req.param('methodPost'),
 			put: req.param('methodPut'),

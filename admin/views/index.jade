@@ -19,9 +19,6 @@ block content
 						.resource-name #{x.name}
 						.resource-desc #{x.desc}
 				td.resource-methods
-					if x.methods.index.enable
-						a(href='/resource/method?res=#{x.name}&act=index')
-							|index
 					if x.methods.get.enable
 						a(href='/resource/method?res=#{x.name}&act=get')
 							|get

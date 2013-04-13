@@ -25,17 +25,7 @@ block content
 						|#{resource.desc}
 
 			h4 Methods
-			p Select the methods that allow to access
-
-			label.checkbox
-				if resource.methods.index.enable
-					input#checkboxIndex(
-						type='checkbox', name='methodIndex', value='index', checked)
-				else
-					input#checkboxIndex(
-						type='checkbox', name='methodIndex', value='index')
-				strong Index
-				span &nbsp;- to query and get a list of resource
+			p Enable or disable to methods of resource access.
 
 			label.checkbox
 				if resource.methods.get.enable

@@ -36,7 +36,6 @@ function Store(path) {
 			desc: __desc(key),
 			model: {},
 			methods: {
-				index: __method(key, 'index'),
 				get: __method(key, 'get'),
 				post: __method(key, 'post'),
 				put: __method(key, 'put'),
@@ -98,7 +97,6 @@ Store.prototype.updateResource = function(name, opt, fn) {
 	if (res && opt) {
 		res.path = opt.path ? opt.path : this.__path(res.name);
 		res.desc = opt.desc ? opt.desc : this.__desc(res.name);
-		res.methods['index'].enable = (opt.methods['index'] != undefined);
 		res.methods['get'].enable = (opt.methods['get'] != undefined);
 		res.methods['post'].enable = (opt.methods['post'] != undefined);
 		res.methods['put'].enable = (opt.methods['put'] != undefined);
