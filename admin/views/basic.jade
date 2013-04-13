@@ -1,9 +1,12 @@
 extends layout
 
+block head
+	script(type='text/javascript', src='/js/basic.js')
+
 block content
-	h2 Resource : #{resource.name}	
+	h2 Resource : #{resource.name}
 	div
-		form(action='/resource', method='post')
+		form#updateForm(action='/resource', method='post')
 
 			input(type='hidden', name='_method', value='put')
 
@@ -70,4 +73,24 @@ block content
 			p &nbsp;
 			button#buttonSave.btn.btn-primary(type='submit') Save Changes
 			|&nbsp;
-			button#buttonDelete.btn.btn-danger(type='button') Delete (Danger!)
+			a#buttonDelete.btn.btn-danger(
+				href='#deleteConfirm', role='button', data-toggle='modal')
+				| Delete (Danger!)
+
+	#deleteConfirm.modal.hide.fade(tabindex='-1', role='dialog', aria-hidden='true')
+
+		form#deleteForm(action='/resource', method='post', style='margin:0;')
+
+			input(type='hidden', name='_method', value='delete')
+			input#deleteName(type='hidden', name='resourceName', value='#{resource.name}')
+
+			.modal-header
+				button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+				h3#deleteLabel Deleting Resource
+			.modal-body
+				p Type the name of resource to confirm deletion.
+				input#deleteNameInput.input-block-level(type='text')
+
+			.modal-footer
+				button.btn(data-dismiss='modal', aria-hidden='true') Cancel
+				button#deleteSubmit.btn.btn-danger(type='submit', disabled) Confirm And Delete

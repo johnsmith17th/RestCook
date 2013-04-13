@@ -2,13 +2,13 @@
  * Module dependencies.
  */
 var express = require('express'),
-	Store = require('./store'),
+	Manager = require('./manager'),
 	errors = require('./errors');
 
 var app = module.exports = express(),
-	store = new Store('config.json');
+	manager = new Manager('config.json');
 
-store.load(function(err) {
+manager.load(function(err) {
 	if (err) {
 		console.log(err);
 	}
@@ -25,14 +25,14 @@ app.configure(function() {
 });
 
 app.get('/', function(req, res) {
-	var resources = store.resources();
+	var resources = manager.resources();
 	res.render('index', {
 		resources: resources
 	});
 });
 
 app.post('/resource', function(req, res) {
-	store.createResource(req.param('resourceName'), function(err) {
+	manager.createResource(req.param('resourceName'), function(err) {
 		if (err) {
 			console.log(err);
 		}
@@ -42,7 +42,7 @@ app.post('/resource', function(req, res) {
 
 app.get('/resource', function(req, res) {
 	var name = req.param('res');
-	var resource = store.getResource(name);
+	var resource = manager.getResource(name);
 	if (resource) {
 		res.render('basic', {
 			resource: resource
@@ -52,19 +52,9 @@ app.get('/resource', function(req, res) {
 	}
 });
 
-app.put('/resource', function(req, res) {
+app.del('/resource', function(req, res) {
 	var name = req.param('resourceName');
-	var opt = {
-		path: req.param('resourcePath'),
-		desc: req.param('resourceDesc'),
-		methods: {
-			get: req.param('methodGet'),
-			post: req.param('methodPost'),
-			put: req.param('methodPut'),
-			delete: req.param('methodDelete')
-		}
-	}
-	store.updateResource(name, opt, function(err) {
+	manager.deleteResource(name, function(err) {
 		if (err) {
 			console.log(err);
 		}
