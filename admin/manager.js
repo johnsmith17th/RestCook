@@ -1,7 +1,7 @@
 var fs = require('fs'),
 	util = require('util');
 
-function Store(path) {
+function Manager(path) {
 
 	var self = this;
 
@@ -17,13 +17,13 @@ function Store(path) {
 	};
 
 	function __desc(name) {
-		return 'This is a resource named ' + name;
+		return util.format('This is a resource named %s.', name);
 	};
 
 	function __method(resource, method) {
 		return {
 			enable: true,
-			desc: util.format('method %s of resource %s', method, resource),
+			desc: util.format('method %s of resource %s.', method, resource),
 			params: {}
 		};
 	}
@@ -74,16 +74,26 @@ function Store(path) {
 	this.__res = __res;
 }
 
-Store.prototype.resources = function() {
+/**
+ * Get resources.
+ */
+Manager.prototype.resources = function() {
 	return this.config.resources;
 };
 
-Store.prototype.getResource = function(name) {
+/**
+ * Get resource by name.
+ */
+Manager.prototype.getResource = function(name) {
 	var res = this.config.resources[name];
 	return res ? res : null;
 };
 
-Store.prototype.createResource = function(name, fn) {
+/**
+ * Create resource with name.
+ * Create only if it dosen't exist.
+ */
+Manager.prototype.createResource = function(name, fn) {
 	if (this.config.resources[name] === undefined) {
 		this.config.resources[name] = this.__res(name);
 		this.config.version++;
@@ -92,7 +102,10 @@ Store.prototype.createResource = function(name, fn) {
 	return this;
 };
 
-Store.prototype.updateResource = function(name, opt, fn) {
+/**
+ * Update resource.
+ */
+Manager.prototype.updateResource = function(name, opt, fn) {
 	var res = this.config.resources[name];
 	if (res && opt) {
 		res.path = opt.path ? opt.path : this.__path(res.name);
@@ -110,4 +123,18 @@ Store.prototype.updateResource = function(name, opt, fn) {
 	return this;
 };
 
-module.exports = Store;
+/**
+ * Delete resource with name.
+ */
+Manager.prototype.deleteResource = function(name, fn) {
+	if (this.config.resources[name]) {
+		delete this.config.resources[name];
+		this.config.version++;
+		this.save(fn);
+	} else {
+		fn && fn(null);
+	}
+	return this;
+};
+
+module.exports = Manager;
