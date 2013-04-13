@@ -1,0 +1,46 @@
+extends layout
+
+block content
+	h2 Resource : #{resource.name}	
+	div
+		form(action='/resource', method='put')
+
+			h4 Basic
+			input#inputName(type='hidden', value='#{resource.name}')
+			div.control-group
+				label.control-label(for='inputPath') Path
+				.controls
+					input#inputPath.span5(type='text', value='#{resource.path}')
+			div.control-group
+				label.control-label(for='inputDesc') Description
+				.controls
+					textarea#inputDesc.span5(rows='3')
+						|#{resource.desc}
+
+			h4 Methods
+			p Select the methods that allow to access
+			label.checkbox
+				input#checkboxIndex(type='checkbox', value='index')
+				strong Index
+				span &nbsp;- to query and get a list of resource
+			label.checkbox
+				input#checkboxGet(type='checkbox', value='get')
+				strong Get
+				span &nbsp;- to get detail of resource
+			label.checkbox
+				input#checkboxPost(type='checkbox', value='post')
+				strong Post
+				span &nbsp;- to create new resource
+			label.checkbox
+				input#checkboxPut(type='checkbox', value='put')
+				strong Put
+				span &nbsp;- to update resource
+			label.checkbox
+				input#checkboxDelete(type='checkbox', value='delete')
+				strong Delete
+				span &nbsp;- to delete resource
+
+			p &nbsp;
+			button#buttonSave.btn.btn-primary(type='submit') Save Changes
+			|&nbsp;
+			button#buttonDelete.btn.btn-danger(type='button') Delete (Danger!)
