@@ -14,6 +14,7 @@ function Store(path) {
 				desc: 'This is a default resource for test',
 				model: {},
 				methods: {
+					index: {},
 					get: {},
 					post: {},
 					put: {},
@@ -52,6 +53,7 @@ Store.prototype.createResource = function(name, fn) {
 			desc: 'This is a resource named ' + name,
 			model: {},
 			methods: {
+				index: {},
 				get: {},
 				post: {},
 				put: {},

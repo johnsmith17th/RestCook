@@ -11,3 +11,18 @@ body {
 .resource-desc {
 	margin: 5px 0;
 }
+
+td.resource-methods {
+	width: 320px;
+	vertical-align: middle;
+}
+
+td.resource-manage {
+	width: 160px;
+	vertical-align: middle;
+}
+
+td.resource-methods a,
+td.resource-manage a {
+	margin-right: 10px;
+}

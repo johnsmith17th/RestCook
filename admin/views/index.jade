@@ -11,14 +11,27 @@ block content
 		tr
 			th Resource
 			th Methods
+			th Manage
 		for x in resources
 			tr
 				td
 					div
 						.resource-name #{x.name}
 						.resource-desc #{x.desc}
-				td
+				td.resource-methods
 					if x.methods.get
-						span get
+						a(href='/resource/methods/get') get
 					if x.methods.post
-						span post
+						a(href='/resource/methods/post') post
+					if x.methods.put
+						a(href='/resource/methods/put') put
+					if x.methods.delete
+						a(href='/resource/methods/delete') delete
+					if x.methods.index
+						a(href='/resource/methods/index') index
+					if x.methods.query
+						a(href='/resource/methods/query') query
+				td.resource-manage
+					a(href='/resource') basic
+					a(href='/resource/model') model
+					a(href='/resource/methods') methods
