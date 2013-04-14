@@ -54,6 +54,7 @@ app.get('/api/resource/model/schema', api.getSchema);
 app.put('/api/resource/model/schema/field', api.putField);
 app.del('/api/resource/model/schema/field', api.delField);*/
 
-// default
+// views
 app.get('/', routes.index);
+app.get('/resource/:resource', routes.resource);
 app.get('/partial/:name', routes.partial);

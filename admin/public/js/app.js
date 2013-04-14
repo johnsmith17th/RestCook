@@ -4,7 +4,7 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		templateUrl: 'partial/resources',
 		controller: ResourcesCtrl
 	});
-	$routeProvider.when('/resource', {
+	$routeProvider.when('/resource/:resource', {
 		templateUrl: 'partial/resource',
 		controller: ResourceCtrl
 	});
