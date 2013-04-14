@@ -156,9 +156,32 @@ Manager.prototype.deleteResource = function(name, fn) {
 /**
  * Get model of resource.
  */
-Manager.prototype.getModel = function(name) {
-	var model = this.config.resources[name].model;
+Manager.prototype.getModel = function(resource) {
+	var model = this.config.resources[resource].model;
 	return model ? model : null;
-}
+};
+
+/**
+ * Update model of resource
+ */
+Manager.prototype.updateModel = function(resource, opt, fn) {
+	var res = this.config.resources[resource];
+	if (res && res.model) {
+
+		if (opt.name) {
+			res.model.name = opt.name;
+		}
+
+		if (opt.collection) {
+			res.model.collection = opt.collection;
+		}
+
+		this.config.version++;
+		this.save(fn);
+	} else {
+		fn && fn(null);
+	}
+	return this;
+};
 
 module.exports = Manager;

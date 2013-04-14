@@ -74,3 +74,17 @@ app.get('/resource/model', function(req, res) {
 		res.render('error', errors.e404);
 	}
 });
+
+app.put('/resource/model', function(req, res) {
+	var name = req.param('resourceName');
+	var opt = {
+		name: req.param('modelName'),
+		collection: req.param('modelCollection')
+	}
+	manager.updateModel(name, opt, function(err) {
+		if (err) {
+			console.log(err);
+		}
+		res.redirect('/resource/model?res=' + name);
+	});
+});

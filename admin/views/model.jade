@@ -1,36 +1,76 @@
 extends layout
 
 block content
-	h1 Resources
+	h2 Resource : #{resource}
+
 	div
-		form.form-inline
-			input#fieldName.span4(type='text', placeholder='Field name')
-			span &nbsp;&nbsp;
-			button#buttonFieldName.btn.btn-primary(type='button') Add Field
-	table.table.table-hover.table-bordered
-		tr
-			th Resource
-			th Methods
-			th Manage
-		for x in resources
+		h4 Model
+
+		form#formEditModel(action='/resource/model', method='post')
+			input(type='hidden', name='_method', value='put')
+			input(type='hidden', name='resourceName', value='#{resource}')
+			.row
+				.control-group.span3
+					label.control-label(for='inputName') Name
+					.controls
+						input#inputName.input-block-level(
+							type='text', name='modelName', value='#{model.name}')
+				.control-group.span3
+					label.control-label(for='inputCollection') Collection
+					.controls
+						input#inputCollection.input-block-level(
+							type='text', name='modelCollection', value='#{model.collection}')
+				.control-group.span3
+					label.control-label &nbsp;
+					.controls
+						button#buttonSave.btn.btn-primary(type='submit') Save
+
+	div
+		h4 Schema
+
+		div
+			p Design the schema of model. 
+				a#linkAddField(href='#') Add Field
+
+		table#tableSchema.table.table-hover.table-bordered
 			tr
-				td
-					div
-						.resource-name #{x.name}
-						.resource-desc #{x.desc}
-				td.resource-methods
-					if x.methods.get.enable
-						a(href='/resource/method?res=#{x.name}&act=get')
-							|get
-					if x.methods.post.enable
-						a(href='/resource/method?res=#{x.name}&act=post')
-							|post
-					if x.methods.put.enable
-						a(href='/resource/method?res=#{x.name}&act=put')
-							|put
-					if x.methods.delete.enable
-						a(href='/resource/method?res=#{x.name}&act=delete')
-							|delete					
-				td.resource-manage
-					a(href='/resource?res=#{x.name}') resource
-					a(href='/resource/model?res=#{x.name}') model
+				th Field
+				th Type
+				th Default
+				th.field-required Required
+				th.field-indexed Index
+				th.field-unique Unique
+				th.field-actions Actions
+			tr
+				td _id
+				td ObjectId
+				td 
+				td.field-required
+					i.icon-ok
+				td.field-indexed
+					i.icon-ok
+				td.field-unique
+					i.icon-ok
+				td.field-actions
+					a.action-edit.icon-edit(href='#', title='edit')
+					a.action-edit.icon-remove(href='#', title='delete') 
+
+	
+		
+	#editField.modal.hide.fade(tabindex='-1', role='dialog', aria-hidden='true')
+
+		form#formEditField(action='/resource/model/schema/f', method='post', style='margin:0;')
+
+			input#formMethod(type='hidden', name='_post', value='#{resource}')
+			input(type='hidden', name='resourceName', value='#{resource}')
+
+			.modal-header
+				button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+				h3#formEditTitle Field
+			.modal-body
+				p Type the name of resource to confirm deletion.
+				input#deleteNameInput.input-block-level(type='text')
+
+			.modal-footer
+				button.btn(data-dismiss='modal', aria-hidden='true') Cancel
+				button#deleteSubmit.btn.btn-danger(type='submit', disabled) Confirm And Delete
