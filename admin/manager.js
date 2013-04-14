@@ -153,4 +153,12 @@ Manager.prototype.deleteResource = function(name, fn) {
 	return this;
 };
 
+/**
+ * Get model of resource.
+ */
+Manager.prototype.getModel = function(name) {
+	var model = this.config.resources[name].model;
+	return model ? model : null;
+}
+
 module.exports = Manager;
