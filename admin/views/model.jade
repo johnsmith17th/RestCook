@@ -1,0 +1,36 @@
+extends layout
+
+block content
+	h1 Resources
+	div
+		form.form-inline
+			input#fieldName.span4(type='text', placeholder='Field name')
+			span &nbsp;&nbsp;
+			button#buttonFieldName.btn.btn-primary(type='button') Add Field
+	table.table.table-hover.table-bordered
+		tr
+			th Resource
+			th Methods
+			th Manage
+		for x in resources
+			tr
+				td
+					div
+						.resource-name #{x.name}
+						.resource-desc #{x.desc}
+				td.resource-methods
+					if x.methods.get.enable
+						a(href='/resource/method?res=#{x.name}&act=get')
+							|get
+					if x.methods.post.enable
+						a(href='/resource/method?res=#{x.name}&act=post')
+							|post
+					if x.methods.put.enable
+						a(href='/resource/method?res=#{x.name}&act=put')
+							|put
+					if x.methods.delete.enable
+						a(href='/resource/method?res=#{x.name}&act=delete')
+							|delete					
+				td.resource-manage
+					a(href='/resource?res=#{x.name}') resource
+					a(href='/resource/model?res=#{x.name}') model

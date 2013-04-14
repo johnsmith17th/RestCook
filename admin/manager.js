@@ -8,17 +8,29 @@ function Manager(path) {
 	this.path = path;
 
 	function __name(name) {
-		return name.toLowerCase();
+		return name.toLowerCase().replace(/[^\w\d\.-]+/g, '-');
 	};
 
 	function __path(name) {
-		var value = name.replace(/\//g, '').replace(/\./g, '/');
+		var value = name.replace(/\./g, '/');
 		return '/' + value;
 	};
 
 	function __desc(name) {
 		return util.format('This is a resource named %s.', name);
 	};
+
+	function __model(name) {
+		var key = name.replace(/(\w)(\w*)/g, function(g0, g1, g2) {
+			return g1.toUpperCase() + g2.toLowerCase();
+		}).replace(/[\W\D]+/g, '');
+		var collection = name.replace(/\.+/g, '_') + 's';
+		return {
+			name: key,
+			collection: collection,
+			schema: {}
+		};
+	}
 
 	function __method(resource, method) {
 		return {
@@ -34,7 +46,7 @@ function Manager(path) {
 			name: key,
 			path: __path(key),
 			desc: __desc(key),
-			model: {},
+			model: __model(key),
 			methods: {
 				get: __method(key, 'get'),
 				post: __method(key, 'post'),
@@ -70,6 +82,7 @@ function Manager(path) {
 	this.__name = __name;
 	this.__path = __path;
 	this.__desc = __desc;
+	this.__model = __model;
 	this.__method = __method;
 	this.__res = __res;
 }
@@ -94,10 +107,13 @@ Manager.prototype.getResource = function(name) {
  * Create only if it dosen't exist.
  */
 Manager.prototype.createResource = function(name, fn) {
-	if (this.config.resources[name] === undefined) {
-		this.config.resources[name] = this.__res(name);
+	var key = this.__name(name);
+	if (this.config.resources[key] === undefined) {
+		this.config.resources[key] = this.__res(name);
 		this.config.version++;
 		this.save(fn);
+	} else {
+		fn && fn(null);
 	}
 	return this;
 };
