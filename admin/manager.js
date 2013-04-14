@@ -157,10 +157,10 @@ Manager.prototype.updateResource = function(name, opt, fn) {
 	if (res && opt) {
 		res.path = opt.path ? opt.path : this.__path(res.name);
 		res.desc = opt.desc ? opt.desc : this.__desc(res.name);
-		res.methods['get'].enable = (opt.methods['get'] != undefined);
-		res.methods['post'].enable = (opt.methods['post'] != undefined);
-		res.methods['put'].enable = (opt.methods['put'] != undefined);
-		res.methods['delete'].enable = (opt.methods['delete'] != undefined);
+		res.methods['get'].enable = opt.methods['get'] ? true : false;
+		res.methods['post'].enable = opt.methods['post'] ? true : false;
+		res.methods['put'].enable = opt.methods['put'] ? true : false;
+		res.methods['delete'].enable = opt.methods['delete'] ? true : false;
 		this.config.version++;
 		this.save(fn);
 	} else {

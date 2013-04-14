@@ -26,7 +26,7 @@ function ResourcesCtrl($route, $scope, $http) {
 }
 
 function ResourceCtrl($scope, $http) {
-	// body...
+	$http.get('/api/resource')
 }
 
 function ModelCtrl($scope, $http) {
