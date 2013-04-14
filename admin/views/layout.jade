@@ -1,17 +1,14 @@
 !!!5
-html
+html(ng-app="AdminApp")
 	head
+		meta(charset='utf8')
+		base(href='/')
 		title RestCook
 		link(rel='stylesheet', href='/css/bootstrap.min.css')
 		link(rel='stylesheet', href='/css/bootstrap-responsive.min.css')
 		link(rel='stylesheet', href='/css/site.css')
-		script(type='text/javascript', src='/js/jquery-1.9.0.min.js')
-		script(type='text/javascript', src='/js/bootstrap.min.js')
+		script(type='text/javascript', src='/js/lib/jquery-1.9.0.min.js')
+		script(type='text/javascript', src='/js/lib/bootstrap.min.js')
 		block head
 	body
-		.navbar.navbar-inverse.navbar-fixed-top
-			.navbar-inner
-				.container
-					a.brand(href='/') RestCook
-		.container
-			block content
+		block body

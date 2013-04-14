@@ -1,0 +1,30 @@
+.container
+	h1 Resources
+
+	form.form-inline
+		input.span4(type='text', ng-model='creation.name', placeholder='Resource name')
+		span &nbsp;&nbsp;
+		button.btn.btn-primary(ng-click='create();') Create Resources
+
+	table.table.table-hover.table-bordered
+		tr
+			th Resource
+			th Methods
+			th Manage
+		tr(ng-repeat='x in resources')
+			td
+				div
+					.resource-name {{x.name}}
+					.resource-desc {{x.desc}}
+			td.resource-methods
+				a(ng-href='/resource/method?resource={{x.name}}&method=get',
+					ng-show='x.methods.get.enable') get
+				a(ng-href='/resource/method?resource={{x.name}}&method=post',
+					ng-show='x.methods.post.enable') post
+				a(ng-href='/resource/method?resource={{x.name}}&method=put', 
+					ng-show='x.methods.put.enable') put
+				a(ng-href='/resource/method?resource={{x.name}}&method=delete', 
+					ng-show='x.methods.delete.enable') delete
+			td.resource-manage
+				a(ng-href='/resource?resource={{x.name}}') resource
+				a(ng-href='/resource/model?resource={{x.name}}') model

@@ -2,6 +2,8 @@
  * Module dependencies.
  */
 var express = require('express'),
+	routes = require('./routes'),
+	api = require('./api'),
 	Manager = require('./manager'),
 	errors = require('./errors');
 
@@ -9,16 +11,15 @@ var express = require('express'),
  * Initialize app.
  */
 
-var app = module.exports = express(),
-	manager = new Manager('config.json');
+var app = module.exports = express();
+var manager = new Manager('config.json');
 
 manager.load(function(err) {
-	if (err) {
-		console.log(err);
-	}
+	if (err) console.log(err);
 });
 
 app.configure(function() {
+	app.set('manager', manager);
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade');
 	app.use(express.bodyParser());
@@ -29,131 +30,30 @@ app.configure(function() {
 });
 
 /**
- * Routing
+ * RESTful Routes
  */
 
-/**
- * GET /
- */
-app.get('/', function(req, res) {
-	var resources = manager.resources();
-	res.render('index', {
-		resources: resources
-	});
-});
+// resources
+app.get('/api/resources', api.getResources);
 
-/**
- * POST /resource
- * to create new resource
- */
-app.post('/resource', function(req, res) {
-	manager.createResource(req.param('resourceName'), function(err) {
-		if (err) {
-			console.log(err);
-		}
-		res.redirect('/');
-	});
-});
+// resource
+app.get('/api/resource', api.getResource);
+app.post('/api/resource', api.postResource);
+app.put('/api/resource', api.putResource);
+app.del('/api/resource', api.delResource);
 
-/**
- * GET /resource
- * to get resource detial
- */
-app.get('/resource', function(req, res) {
-	var name = req.param('res');
-	var resource = manager.getResource(name);
-	if (resource) {
-		res.render('basic', {
-			resource: resource
-		});
-	} else {
-		res.render('error', errors.e404);
-	}
-});
+/*
+// resource model
+app.get('/api/resource/model', api.getModel);
+app.put('/api/resource/model', api.putModel);
 
-/**
- * DELETE /resource
- * to delete resource
- */
-app.del('/resource', function(req, res) {
-	var name = req.param('resourceName');
-	manager.deleteResource(name, function(err) {
-		if (err) {
-			console.log(err);
-		}
-		res.redirect('/');
-	});
-});
+// resource model schema
+app.get('/api/resource/model/schema', api.getSchema);
 
-/**
- * GET /resource/model
- * to get model of resource
- */
-app.get('/resource/model', function(req, res) {
-	var name = req.param('res');
-	var model = manager.getModel(name);
-	if (model) {
-		res.render('model', {
-			resource: name,
-			model: model
-		});
-	} else {
-		res.render('error', errors.e404);
-	}
-});
+// resource model schema field
+app.put('/api/resource/model/schema/field', api.putField);
+app.del('/api/resource/model/schema/field', api.delField);*/
 
-/**
- * PUT /resource/model
- * to update model of resource
- */
-app.put('/resource/model', function(req, res) {
-	var name = req.param('resourceName');
-	var opt = {
-		name: req.param('modelName'),
-		collection: req.param('modelCollection')
-	}
-	manager.updateModel(name, opt, function(err) {
-		if (err) {
-			console.log(err);
-		}
-		res.redirect('/resource/model?res=' + name);
-	});
-});
-
-/**
- * PUT /resource/model/schema/field
- * to create or update field of resource model schema
- */
-app.put('/resource/model/schema/field', function(req, res) {
-	var name = req.param('resourceName');
-	var opt = {
-		name: req.param('fieldName'),
-		desc: req.param('fieldDesc'),
-		type: req.param('fieldType'),
-		default: req.param('fieldDefault'),
-		required: req.param('fieldRequired'),
-		indexed: req.param('fieldIndexed'),
-		unique: req.param('fieldUnique')
-	}
-	manager.setField(name, opt, function(err) {
-		if (err) {
-			console.log(err);
-		}
-		res.redirect('/resource/model?res=' + name);
-	});
-});
-
-/**
- * DELETE /resource/model/schema/field
- * to delete field of resource model schema
- */
-app.del('/resource/model/schema/field', function(req, res) {
-	var resource = req.param('resourceName');
-	var field = req.param('fieldName');
-	manager.deleteField(resource, field, function(err) {
-		if (err) {
-			console.log(err);
-		}
-		res.redirect('/resource/model?res=' + resource);
-	});
-});
+// default
+app.get('/', routes.index);
+app.get('/partial/:name', routes.partial);

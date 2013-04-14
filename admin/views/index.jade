@@ -1,36 +1,17 @@
 extends layout
 
-block content
-	h1 Resources
-	div
-		form.form-inline(action='resource', method='post')
-			input.span4(type='text', name='resourceName', placeholder='Resource name')
-			span &nbsp;&nbsp;
-			button.btn.btn-primary(type='submit') Create Resources
-	table.table.table-hover.table-bordered
-		tr
-			th Resource
-			th Methods
-			th Manage
-		for x in resources
-			tr
-				td
-					div
-						.resource-name #{x.name}
-						.resource-desc #{x.desc}
-				td.resource-methods
-					if x.methods.get.enable
-						a(href='/resource/method?res=#{x.name}&act=get')
-							|get
-					if x.methods.post.enable
-						a(href='/resource/method?res=#{x.name}&act=post')
-							|post
-					if x.methods.put.enable
-						a(href='/resource/method?res=#{x.name}&act=put')
-							|put
-					if x.methods.delete.enable
-						a(href='/resource/method?res=#{x.name}&act=delete')
-							|delete					
-				td.resource-manage
-					a(href='/resource?res=#{x.name}') resource
-					a(href='/resource/model?res=#{x.name}') model
+block head
+	script(type='text/javascript', src='/js/lib/angular.min.js')
+	script(type='text/javascript', src='/js/app.js')
+	script(type='text/javascript', src='/js/app-services.js')
+	script(type='text/javascript', src='/js/app-controllers.js')
+	script(type='text/javascript', src='/js/app-filters.js')
+	script(type='text/javascript', src='/js/app-directives.js')
+
+block body
+	.navbar.navbar-inverse.navbar-fixed-top
+		.navbar-inner
+				.container
+					a.brand(href='/') RestCook
+	div(ng-controller='AppCtrl')
+		div(ng-view)

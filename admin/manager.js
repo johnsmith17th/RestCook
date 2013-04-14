@@ -139,7 +139,8 @@ Manager.prototype.getResource = function(name) {
 Manager.prototype.createResource = function(name, fn) {
 	var key = this.__name(name);
 	if (this.config.resources[key] === undefined) {
-		this.config.resources[key] = this.__res(name);
+		var res = this.__res(name);
+		this.config.resources[key] = res;
 		this.config.version++;
 		this.save(fn);
 	} else {
