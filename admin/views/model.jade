@@ -33,7 +33,8 @@ block content
 
 		div
 			p Design the schema of model. 
-				a#linkAddField(href='#editField', role='button', data-toggle='modal') Add Field
+				a#linkAddField(href='#editField', role='button', data-toggle='modal') 
+					strong Add Field
 
 		table#tableSchema.table.table-hover.table-bordered
 			tr
@@ -45,7 +46,8 @@ block content
 				th.field-unique Unique
 				th.field-actions Actions
 			tr
-				td.field-name _id
+				td.field-name
+					abbr(title='Identification of resource') _id
 				td.field-type ObjectId
 				td.field-default
 				td.field-required
@@ -56,8 +58,9 @@ block content
 					i.icon-ok
 				td.field-actions
 			for i in model.schema
-				tr
-					td.field-name #{i['name']}
+				tr(data-key='#{i['name']}')
+					td.field-name
+						abbr(title='#{i['desc']}') #{i['name']}
 					td.field-type #{i['type']}
 					td.field-default #{i['default']}
 					td.field-required
@@ -70,19 +73,23 @@ block content
 						if i.unique
 							i.icon-ok
 					td.field-actions
-						a.action-edit.icon-edit(href='#', title='edit')
-						a.action-edit.icon-remove(href='#', title='delete')
+						a.action-edit.icon-edit(
+							href='#editField', title='edit',
+							role='button', data-toggle='modal', data-key='#{i['name']}')
+						a.action-remove.icon-remove(
+							href='#deleteField', title='delete', 
+							role='button', data-toggle='modal', data-key='#{i['name']}')
 		
 	#editField.modal.hide.fade(tabindex='-1', role='dialog', aria-hidden='true')
 
-		form#formField.form-horizontal(action='/resource/model/schema', method='post', style='margin:0;')
+		form.form-horizontal(action='/resource/model/schema/field', method='post', style='margin:0;')
 
 			input(type='hidden', name='_method', value='put')
 			input(type='hidden', name='resourceName', value='#{resource}')
 
 			.modal-header
 				button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
-				h3#formTitle Field
+				h3 Field
 
 			.modal-body
 				.control-group
@@ -124,3 +131,19 @@ block content
 			.modal-footer
 				button.btn(data-dismiss='modal', aria-hidden='true') Cancel
 				button#formSubmit.btn.btn-danger(type='submit', disabled) Save
+
+	#deleteField.modal.hide.fade(tabindex='-1', role='dialog', aria-hidden='true')
+		form.form-horizontal(action='/resource/model/schema/field', method='post', style='margin:0;')
+			input(type='hidden', name='_method', value='delete')
+			input(type='hidden', name='resourceName', value='#{resource}')
+			input#deleteKey(type='hidden', name='fieldName')
+			.modal-header
+				button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+				h3 Delete Field
+			.modal-body
+				p.lead Confirm to delete field: 
+					strong#deleteFieldName
+					| ?	
+			.modal-footer
+				button.btn(data-dismiss='modal', aria-hidden='true') Cancel
+				button.btn.btn-danger(type='submit') Delete

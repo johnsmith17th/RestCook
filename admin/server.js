@@ -121,10 +121,10 @@ app.put('/resource/model', function(req, res) {
 });
 
 /**
- * PUT /resource/model/schema
+ * PUT /resource/model/schema/field
  * to create or update field of resource model schema
  */
-app.put('/resource/model/schema', function(req, res) {
+app.put('/resource/model/schema/field', function(req, res) {
 	var name = req.param('resourceName');
 	var opt = {
 		name: req.param('fieldName'),
@@ -140,5 +140,20 @@ app.put('/resource/model/schema', function(req, res) {
 			console.log(err);
 		}
 		res.redirect('/resource/model?res=' + name);
+	});
+});
+
+/**
+ * DELETE /resource/model/schema/field
+ * to delete field of resource model schema
+ */
+app.del('/resource/model/schema/field', function(req, res) {
+	var resource = req.param('resourceName');
+	var field = req.param('fieldName');
+	manager.deleteField(resource, field, function(err) {
+		if (err) {
+			console.log(err);
+		}
+		res.redirect('/resource/model?res=' + resource);
 	});
 });

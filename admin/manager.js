@@ -237,4 +237,19 @@ Manager.prototype.setField = function(resource, opt, fn) {
 	return this;
 }
 
+/**
+ * Delete field of resource model schema
+ */
+Manager.prototype.deleteField = function(resource, name, fn) {
+	var res = this.config.resources[resource];
+	if (res && res.model && res.model.schema && res.model.schema[name]) {
+		delete res.model.schema[name];
+		this.config.version++;
+		this.save(fn);
+	} else {
+		fn && fn(null);
+	}
+	return this;
+}
+
 module.exports = Manager;
