@@ -23,8 +23,8 @@ function Manager(path) {
 	function __model(name) {
 		var key = name.replace(/(\w)(\w*)/g, function(g0, g1, g2) {
 			return g1.toUpperCase() + g2.toLowerCase();
-		}).replace(/[\W\D]+/g, '');
-		var collection = name.replace(/\.+/g, '_') + 's';
+		}).replace(/[^\w\d]+/g, '');
+		var collection = name.replace(/[^\w\d]+/g, '_') + 's';
 		return {
 			name: key,
 			collection: collection,
