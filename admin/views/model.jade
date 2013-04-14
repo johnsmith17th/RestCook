@@ -1,5 +1,8 @@
 extends layout
 
+block head
+	script(type='text/javascript', src='/js/app-admin-model.js')
+
 block content
 	h2 Resource : #{resource}
 
@@ -30,21 +33,21 @@ block content
 
 		div
 			p Design the schema of model. 
-				a#linkAddField(href='#') Add Field
+				a#linkAddField(href='#editField', role='button', data-toggle='modal') Add Field
 
 		table#tableSchema.table.table-hover.table-bordered
 			tr
-				th Field
-				th Type
-				th Default
+				th.field-name Field
+				th.field-type Type
+				th.field-default Default
 				th.field-required Required
 				th.field-indexed Index
 				th.field-unique Unique
 				th.field-actions Actions
 			tr
-				td _id
-				td ObjectId
-				td 
+				td.field-name _id
+				td.field-type ObjectId
+				td.field-default
 				td.field-required
 					i.icon-ok
 				td.field-indexed
@@ -52,25 +55,72 @@ block content
 				td.field-unique
 					i.icon-ok
 				td.field-actions
-					a.action-edit.icon-edit(href='#', title='edit')
-					a.action-edit.icon-remove(href='#', title='delete') 
-
-	
+			for i in model.schema
+				tr
+					td.field-name #{i['name']}
+					td.field-type #{i['type']}
+					td.field-default #{i['default']}
+					td.field-required
+						if i.required
+							i.icon-ok
+					td.field-indexed
+						if i.indexed
+							i.icon-ok
+					td.field-unique
+						if i.unique
+							i.icon-ok
+					td.field-actions
+						a.action-edit.icon-edit(href='#', title='edit')
+						a.action-edit.icon-remove(href='#', title='delete')
 		
 	#editField.modal.hide.fade(tabindex='-1', role='dialog', aria-hidden='true')
 
-		form#formEditField(action='/resource/model/schema/f', method='post', style='margin:0;')
+		form#formField.form-horizontal(action='/resource/model/schema', method='post', style='margin:0;')
 
-			input#formMethod(type='hidden', name='_post', value='#{resource}')
+			input(type='hidden', name='_method', value='put')
 			input(type='hidden', name='resourceName', value='#{resource}')
 
 			.modal-header
 				button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
-				h3#formEditTitle Field
+				h3#formTitle Field
+
 			.modal-body
-				p Type the name of resource to confirm deletion.
-				input#deleteNameInput.input-block-level(type='text')
+				.control-group
+					label.control-label(for='fieldName') Name
+					.controls
+						input#fieldName.input-block-level(type='text', name='fieldName')
+				.control-group
+					label.control-label(for='fieldDesc') Description
+					.controls
+						input#fieldDesc.input-block-level(type='text', name='fieldDesc')
+				.control-group
+					label.control-label(for='fieldType') Type
+					.controls
+						select#fieldType.input-block-level(name='fieldType')
+							option(value='String') String
+							option(value='Number') Number
+							option(value='Date') Date
+							option(value='Boolean') Boolean
+				.control-group
+					label.control-label(for='fieldDefault') Default
+					.controls
+						input#fieldDefault.input-block-level(type='text', name='fieldDefault')
+				.control-group
+					.controls
+						label.checkbox
+							input#fieldRequired(type='checkbox', name='fieldRequired')
+							|Field is required.
+				.control-group
+					.controls
+						label.checkbox
+							input#fieldIndexed(type='checkbox', name='fieldIndexed')
+							|Create index on this field.
+				.control-group
+					.controls
+						label.checkbox
+							input#fieldUnique(type='checkbox', name='fieldUnique')
+							|Unique.
 
 			.modal-footer
 				button.btn(data-dismiss='modal', aria-hidden='true') Cancel
-				button#deleteSubmit.btn.btn-danger(type='submit', disabled) Confirm And Delete
+				button#formSubmit.btn.btn-danger(type='submit', disabled) Save

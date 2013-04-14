@@ -7,18 +7,26 @@ function Manager(path) {
 
 	this.path = path;
 
+	// to clean resource name
+
 	function __name(name) {
 		return name.toLowerCase().replace(/[^\w\d\.-]+/g, '-');
 	};
+
+	// to build resource path
 
 	function __path(name) {
 		var value = name.replace(/\./g, '/');
 		return '/' + value;
 	};
 
+	// to build default resource desc
+
 	function __desc(name) {
 		return util.format('This is a resource named %s.', name);
 	};
+
+	// to build resource model
 
 	function __model(name) {
 		var key = name.replace(/(\w)(\w*)/g, function(g0, g1, g2) {
@@ -32,6 +40,8 @@ function Manager(path) {
 		};
 	}
 
+	// to build resource method
+
 	function __method(resource, method) {
 		return {
 			enable: true,
@@ -39,6 +49,24 @@ function Manager(path) {
 			params: {}
 		};
 	}
+
+	// to build field of resource model schema
+
+	function __field(name, opt) {
+		var key = name.toLowerCase().replace(/[^\w\d_]+/g, '');
+		var field = {
+			name: key
+		};
+		field['desc'] = opt['desc'] ? opt['desc'] : '';
+		field['type'] = opt['type'] ? opt['type'] : 'String';
+		field['default'] = opt['default'] ? opt['default'] : undefined;
+		field['required'] = opt['required'] ? true : false;
+		field['indexed'] = opt['indexed'] ? true : false;
+		field['unique'] = opt['unique'] ? true : false;
+		return field;
+	}
+
+	// to build a resource
 
 	function __res(name) {
 		var key = __name(name);
@@ -79,11 +107,13 @@ function Manager(path) {
 		return self;
 	};
 
+	// private methods
 	this.__name = __name;
 	this.__path = __path;
 	this.__desc = __desc;
 	this.__model = __model;
 	this.__method = __method;
+	this.__field = __field;
 	this.__res = __res;
 }
 
@@ -183,5 +213,28 @@ Manager.prototype.updateModel = function(resource, opt, fn) {
 	}
 	return this;
 };
+
+/**
+ * Set field of resource model schema
+ */
+Manager.prototype.setField = function(resource, opt, fn) {
+
+	var res = this.config.resources[resource];
+	var field = this.__field(opt.name, opt);
+
+	if (res && res.model && field.name) {
+
+		if (!res.model.schema) {
+			res.model.schema = {};
+		}
+
+		res.model.schema[field.name] = field;
+		this.config.version++;
+		this.save(fn);
+	} else {
+		fn && fn(null);
+	}
+	return this;
+}
 
 module.exports = Manager;
