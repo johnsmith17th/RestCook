@@ -61,3 +61,16 @@ app.del('/resource', function(req, res) {
 		res.redirect('/');
 	});
 });
+
+app.get('/resource/model', function(req, res) {
+	var name = req.param('res');
+	var model = manager.getModel(name);
+	if (model) {
+		res.render('model', {
+			resource: name,
+			model: model
+		});
+	} else {
+		res.render('error', errors.e404);
+	}
+});
