@@ -3,7 +3,6 @@
  */
 exports.index = function(req, res) {
 	res.render('index', {
-		base: '/',
 		controller: 'ResourcesCtrl'
 	});
 };
@@ -13,10 +12,19 @@ exports.index = function(req, res) {
  */
 exports.resource = function(req, res) {
 	res.render('index', {
-		base: '/',
 		controller: 'ResourceCtrl'
 	});
 };
+
+/**
+ * GET /resource/:resource/model
+ */
+exports.resource = function(req, res) {
+	res.render('index', {
+		controller: 'ModelCtrl'
+	});
+};
+
 
 exports.partial = function(req, res) {
 	var name = req.params.name;
