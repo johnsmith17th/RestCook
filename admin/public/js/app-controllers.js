@@ -28,7 +28,7 @@ function ResourcesCtrl($route, $scope, $http, $window, $location) {
 	};
 }
 
-function ResourceCtrl($scope, $http, $route, $routeParams, $location) {
+function ResourceCtrl($scope, $http, $routeParams, $location) {
 
 	$scope.deleteDisabled = true;
 
@@ -36,14 +36,15 @@ function ResourceCtrl($scope, $http, $route, $routeParams, $location) {
 		method: 'GET',
 		url: '/api/resource',
 		params: {
-			resource: $routeParams.resource
+			name: $routeParams.resource
 		}
 	}).
 	success(function(data, status, headers, config) {
 		$scope.resource = data.resource;
 	}).
-	error(function() {
-		$scope.resource = null;
+	error(function(data) {
+		$scope.error = data;
+		$location.path('/error');
 	});
 
 	/**
@@ -87,11 +88,11 @@ function ResourceCtrl($scope, $http, $route, $routeParams, $location) {
 	 */
 	$scope.validate = function() {
 		var value = angular.element('#confirmName').val();
-		$scope.deleteDisabled = $scope.resource.name != value;		
+		$scope.deleteDisabled = $scope.resource.name != value;
 	};
 }
 
-function ModelCtrl($scope, $http) {
+function ModelCtrl($scope, $http, $location) {
 	// body...
 }
 

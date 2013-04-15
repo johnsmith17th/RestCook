@@ -1,3 +1,5 @@
+var errors = require('./errors');
+
 /*
  * Serve JSON to client.
  */
@@ -20,11 +22,11 @@ module.exports.getResources = function(req, res) {
  * GET /api/resource
  */
 module.exports.getResource = function(req, res) {
-	var name = req.param('resource');
+	var name = req.param('name');
 	var resource = $(req).getResource(name);
 	var result = null;
 	if (resource) {
-		result = {
+		var result = {
 			name: resource.name,
 			path: resource.path,
 			desc: resource.desc,
@@ -33,10 +35,12 @@ module.exports.getResource = function(req, res) {
 			method_put: resource.methods['put'].enable,
 			method_delete: resource.methods['delete'].enable
 		};
+		res.json({
+			resource: result
+		});
+	} else {
+		res.json(404, errors.e404);
 	}
-	res.json({
-		resource: result
-	});
 };
 
 /**
@@ -45,8 +49,8 @@ module.exports.getResource = function(req, res) {
 module.exports.postResource = function(req, res) {
 	var name = req.param('name');
 	$(req).createResource(name, function(e) {
-		if (e) console.log(e);
-		res.send(200);
+		if (e) res.json(500, errors.e500);
+		else res.send(200);
 	});
 };
 
@@ -66,8 +70,8 @@ module.exports.putResource = function(req, res) {
 			}
 		};
 	$(req).updateResource(name, opt, function(e) {
-		if (e) console.log(e);
-		res.send(200);
+		if (e) res.json(500, errors.e500);
+		else res.send(200);
 	});
 };
 
@@ -77,7 +81,37 @@ module.exports.putResource = function(req, res) {
 module.exports.delResource = function(req, res) {
 	var name = req.param('name');
 	$(req).deleteResource(name, function(e) {
-		if (e) console.log(e);
-		res.send(200);
+		if (e) res.json(500, errors.e500);
+		else res.send(200);
+	});
+};
+
+/**
+ * GET /api/resource/model
+ */
+module.exports.getModel = function(req, res) {
+	var name = req.param('name');
+	var model = $(req).getModel(name);
+	if (model) {
+		res.json({
+			model: $(req).getModel(name)
+		});
+	} else {
+		res.json(404, errors.e404);
+	}
+};
+
+/**
+ * PUT /api/resource/model
+ */
+module.exports.putModel = function(req, res) {
+	var name = req.param('name'),
+		opt = {
+			name = req.param('model_name'),
+			collection = req.param('model_collection')
+		};
+	$(req).updateModel(name, opt, function(e) {
+		if (e) res.json(500, errors.e500);
+		else res.send(200);
 	});
 };

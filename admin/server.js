@@ -43,8 +43,8 @@ app.put('/api/resource', api.putResource);
 app.del('/api/resource', api.delResource);
 
 // resource model
-app.get('/api/resource/model', api.getModel);
-app.put('/api/resource/model', api.putModel);
+//app.get('/api/resource/model', api.getModel);
+//app.put('/api/resource/model', api.putModel);
 
 /*
 // resource model schema

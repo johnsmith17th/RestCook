@@ -13,8 +13,7 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		controller: ModelCtrl
 	});
 	$routeProvider.when('/error', {
-		templateUrl: 'partial/error',
-		controller: ErrorCtrl
+		templateUrl: 'partial/error'
 	});
 	$routeProvider.otherwise({
 		redirectTo: '/'

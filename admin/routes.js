@@ -19,7 +19,7 @@ exports.resource = function(req, res) {
 /**
  * GET /resource/:resource/model
  */
-exports.resource = function(req, res) {
+exports.model = function(req, res) {
 	res.render('index', {
 		controller: 'ModelCtrl'
 	});
