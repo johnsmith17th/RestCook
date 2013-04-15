@@ -10,8 +10,10 @@ function ResourcesCtrl($route, $scope, $http, $window, $location) {
 	success(function(data, status, headers, config) {
 		$scope.resources = data.resources;
 	}).
-	error(function() {
+	error(function(data) {
 		$scope.resources = null;
+		$scope.error = data;
+		$location.path('/error');
 	});
 
 	/**
@@ -22,8 +24,9 @@ function ResourcesCtrl($route, $scope, $http, $window, $location) {
 		success(function(data, status, headers, config) {
 			$route.reload();
 		}).
-		error(function() {
-			$route.reload();
+		error(function(data) {
+			$scope.error = data;
+			$location.path('/error');
 		});
 	};
 }
@@ -43,6 +46,7 @@ function ResourceCtrl($scope, $http, $routeParams, $location) {
 		$scope.resource = data.resource;
 	}).
 	error(function(data) {
+		$scope.resource = null;
 		$scope.error = data;
 		$location.path('/error');
 	});
@@ -59,8 +63,9 @@ function ResourceCtrl($scope, $http, $routeParams, $location) {
 		success(function(data, status, headers, config) {
 			$location.path('/');
 		}).
-		error(function() {
-			$location.path('/');
+		error(function(data) {
+			$scope.error = data;
+			$location.path('/error');
 		});
 	};
 
@@ -78,8 +83,9 @@ function ResourceCtrl($scope, $http, $routeParams, $location) {
 		success(function(data, status, headers, config) {
 			$location.path('/');
 		}).
-		error(function() {
-			$location.path('/');
+		error(function(data) {
+			$scope.error = data;
+			$location.path('/error');
 		});
 	};
 
@@ -92,8 +98,43 @@ function ResourceCtrl($scope, $http, $routeParams, $location) {
 	};
 }
 
-function ModelCtrl($scope, $http, $location) {
-	// body...
+function ModelCtrl($route, $scope, $http, $location) {
+
+	$http({
+		method: 'GET',
+		url: '/api/resource/model',
+		params: {
+			name: $routeParams.resource
+		}
+	}).
+	success(function(data, status, headers, config) {
+		$scope.model = data.model;
+	}).
+	error(function(data) {
+		$scope.model = null;
+		$scope.error = data;
+		$location.path('/error');
+	});
+
+	$scope.save = function() {
+		$http({
+			method: 'PUT',
+			url: '/api/resource/model',
+			params: {
+				name: $routeParams.resource
+				model_name: $scope.model.name,
+				model_collection: $scope.model.collection
+			}
+		}).
+		success(function(data, status, headers, config) {
+			$route.reload();
+		}).
+		error(function(data) {
+			$scope.model = null;
+			$scope.error = data;
+			$location.path('/error');
+		});
+	};
 }
 
 function ErrorCtrl($scope) {
