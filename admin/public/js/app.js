@@ -1,4 +1,4 @@
-angular.module('AdminApp', ['AdminApp.filters', 'AdminApp.services', 'AdminApp.directives']).
+angular.module('AdminApp', ['AdminApp.filters', 'AdminApp.services', 'AdminApp.directives', '$strap.directives']).
 config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 	$routeProvider.when('/', {
 		templateUrl: 'partial/resources',
@@ -11,6 +11,10 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 	$routeProvider.when('/resource/model', {
 		templateUrl: 'partial/model',
 		controller: ModelCtrl
+	});
+	$routeProvider.when('/error', {
+		templateUrl: 'partial/error',
+		controller: ErrorCtrl
 	});
 	$routeProvider.otherwise({
 		redirectTo: '/'

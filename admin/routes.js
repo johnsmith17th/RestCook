@@ -13,7 +13,7 @@ exports.index = function(req, res) {
  */
 exports.resource = function(req, res) {
 	res.render('index', {
-		base: '/resource',
+		base: '/',
 		controller: 'ResourceCtrl'
 	});
 };

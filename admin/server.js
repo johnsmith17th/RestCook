@@ -42,11 +42,11 @@ app.post('/api/resource', api.postResource);
 app.put('/api/resource', api.putResource);
 app.del('/api/resource', api.delResource);
 
-/*
 // resource model
 app.get('/api/resource/model', api.getModel);
 app.put('/api/resource/model', api.putModel);
 
+/*
 // resource model schema
 app.get('/api/resource/model/schema', api.getSchema);
 
@@ -57,4 +57,5 @@ app.del('/api/resource/model/schema/field', api.delField);*/
 // views
 app.get('/', routes.index);
 app.get('/resource/:resource', routes.resource);
+app.get('/resource/:resource/model', routes.model);
 app.get('/partial/:name', routes.partial);

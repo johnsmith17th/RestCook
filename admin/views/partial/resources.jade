@@ -17,14 +17,10 @@
 					.resource-name {{x.name}}
 					.resource-desc {{x.desc}}
 			td.resource-methods
-				a(ng-href='/resource/method?resource={{x.name}}&method=get',
-					ng-show='x.methods.get.enable') get
-				a(ng-href='/resource/method?resource={{x.name}}&method=post',
-					ng-show='x.methods.post.enable') post
-				a(ng-href='/resource/method?resource={{x.name}}&method=put', 
-					ng-show='x.methods.put.enable') put
-				a(ng-href='/resource/method?resource={{x.name}}&method=delete', 
-					ng-show='x.methods.delete.enable') delete
+				a(ng-href='/resource/{{x.name}}/method/get', ng-show='x.methods.get.enable') get
+				a(ng-href='/resource/{{x.name}}/method/post', ng-show='x.methods.post.enable') post
+				a(ng-href='/resource/{{x.name}}/method/put', ng-show='x.methods.put.enable') put
+				a(ng-href='/resource/{{x.name}}/method/delete', ng-show='x.methods.delete.enable') delete
 			td.resource-manage
-				a(ng-href='/resource/{{x.name}}') resource
-				a(ng-href='/resource/model?resource={{x.name}}') model
+				a(ng-href='/resource/{{x.name}}/') resource
+				a(ng-href='/resource/{{x.name}}/model') model
