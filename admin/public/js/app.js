@@ -8,7 +8,7 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		templateUrl: 'partial/resource',
 		controller: ResourceCtrl
 	});
-	$routeProvider.when('/resource/model', {
+	$routeProvider.when('/resource/:resource/model', {
 		templateUrl: 'partial/model',
 		controller: ModelCtrl
 	});

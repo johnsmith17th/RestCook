@@ -13,8 +13,9 @@ function $(req) {
  */
 module.exports.getResources = function(req, res) {
 	var resources = $(req).resources();
-	res.json({
-		resources: resources
+	res.json(200, {
+		code: 200,
+		message: resources
 	});
 };
 
@@ -35,8 +36,9 @@ module.exports.getResource = function(req, res) {
 			method_put: resource.methods['put'].enable,
 			method_delete: resource.methods['delete'].enable
 		};
-		res.json({
-			resource: result
+		res.json(200, {
+			code: 200,
+			message: result
 		});
 	} else {
 		res.json(404, errors.e404);
@@ -93,8 +95,9 @@ module.exports.getModel = function(req, res) {
 	var name = req.param('name');
 	var model = $(req).getModel(name);
 	if (model) {
-		res.json({
-			model: $(req).getModel(name)
+		res.json(200, {
+			code: 200,
+			message: model
 		});
 	} else {
 		res.json(404, errors.e404);
@@ -107,8 +110,8 @@ module.exports.getModel = function(req, res) {
 module.exports.putModel = function(req, res) {
 	var name = req.param('name'),
 		opt = {
-			name = req.param('model_name'),
-			collection = req.param('model_collection')
+			name: req.param('model_name'),
+			collection: req.param('model_collection')
 		};
 	$(req).updateModel(name, opt, function(e) {
 		if (e) res.json(500, errors.e500);

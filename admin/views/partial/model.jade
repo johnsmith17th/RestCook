@@ -1,0 +1,58 @@
+.container
+	h2 Resource : {{resource.name}}
+
+	h4 Model
+	.row
+		.control-group.span3
+			label.control-label(for='inputName') Name
+			.controls
+				input#inputName.input-block-level(type='text', ng-model='model.name')
+		.control-group.span3
+			label.control-label(for='inputCollection') Collection
+			.controls
+				input#inputCollection.input-block-level(type='text', ng-model='model.collection')
+		.control-group.span3
+			label.control-label &nbsp;
+			.controls
+				button.btn.btn-primary(ng-click='save()') Save
+
+	h4 Schema
+	p Design the schema of model. 
+		a(href='', role='button', data-toggle='modal') 
+			strong Add Field
+
+	table.table.table-hover.table-bordered
+		tr
+			th.field-name Field
+			th.field-type Type
+			th.field-default Default
+			th.field-required Required
+			th.field-indexed Index
+			th.field-unique Unique
+			th.field-actions Actions
+		tr
+			td.field-name
+				abbr(title='Identification of resource') _id
+			td.field-type ObjectId
+			td.field-default
+			td.field-required
+				i.icon-ok
+			td.field-indexed
+				i.icon-ok
+			td.field-unique
+				i.icon-ok
+			td.field-actions
+		tr(ng-repeat='x in model.schema')
+				td.field-name
+					abbr(title='{{x.desc}}') {{x.name}}
+				td.field-type {{x.type}}
+				td.field-default {{x.default}}
+				td.field-required
+					i.icon-ok(ng-show='x.required')
+				td.field-indexed
+					i.icon-ok(ng-show='x.indexed')
+				td.field-unique
+					i.icon-ok(ng-show='x.unique')
+				td.field-actions
+					a.icon-edit(href='', title='edit', role='button', data-toggle='modal')
+					a.icon-remove(href='', title='delete', role='button', data-toggle='modal')

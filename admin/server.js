@@ -42,17 +42,12 @@ app.post('/api/resource', api.postResource);
 app.put('/api/resource', api.putResource);
 app.del('/api/resource', api.delResource);
 
-// resource model
-//app.get('/api/resource/model', api.getModel);
-//app.put('/api/resource/model', api.putModel);
-
-/*
-// resource model schema
-app.get('/api/resource/model/schema', api.getSchema);
+app.get('/api/resource/model', api.getModel);
+app.put('/api/resource/model', api.putModel);
 
 // resource model schema field
-app.put('/api/resource/model/schema/field', api.putField);
-app.del('/api/resource/model/schema/field', api.delField);*/
+//app.put('/api/resource/model/schema/field', api.putField);
+//app.del('/api/resource/model/schema/field', api.delField);
 
 // views
 app.get('/', routes.index);

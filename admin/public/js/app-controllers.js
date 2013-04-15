@@ -7,8 +7,8 @@ function ResourcesCtrl($route, $scope, $http, $window, $location) {
 		method: 'GET',
 		url: '/api/resources'
 	}).
-	success(function(data, status, headers, config) {
-		$scope.resources = data.resources;
+	success(function(data) {
+		$scope.resources = data.message;
 	}).
 	error(function(data) {
 		$scope.resources = null;
@@ -42,8 +42,8 @@ function ResourceCtrl($scope, $http, $routeParams, $location) {
 			name: $routeParams.resource
 		}
 	}).
-	success(function(data, status, headers, config) {
-		$scope.resource = data.resource;
+	success(function(data) {
+		$scope.resource = data.message;
 	}).
 	error(function(data) {
 		$scope.resource = null;
@@ -98,7 +98,11 @@ function ResourceCtrl($scope, $http, $routeParams, $location) {
 	};
 }
 
-function ModelCtrl($route, $scope, $http, $location) {
+function ModelCtrl($route, $scope, $http, $location, $routeParams) {
+
+	$scope.resource = {
+		name: $routeParams.resource
+	};
 
 	$http({
 		method: 'GET',
@@ -107,12 +111,13 @@ function ModelCtrl($route, $scope, $http, $location) {
 			name: $routeParams.resource
 		}
 	}).
-	success(function(data, status, headers, config) {
-		$scope.model = data.model;
+	success(function(data) {
+		$scope.model = data.message;
 	}).
 	error(function(data) {
 		$scope.model = null;
 		$scope.error = data;
+		console.log(data);
 		$location.path('/error');
 	});
 
@@ -121,7 +126,47 @@ function ModelCtrl($route, $scope, $http, $location) {
 			method: 'PUT',
 			url: '/api/resource/model',
 			params: {
-				name: $routeParams.resource
+				name: $routeParams.resource,
+				model_name: $scope.model.name,
+				model_collection: $scope.model.collection
+			}
+		}).
+		success(function(data, status, headers, config) {
+			$route.reload();
+		}).
+		error(function(data) {
+			$scope.model = null;
+			$scope.error = data;
+			$location.path('/error');
+		});
+	};
+
+	$scope.putField = function() {
+		$http({
+			method: 'DELETE',
+			url: '/api/resource/model/schema',
+			params: {
+				name: $routeParams.resource,
+				model_name: $scope.model.name,
+				model_collection: $scope.model.collection
+			}
+		}).
+		success(function(data, status, headers, config) {
+			$route.reload();
+		}).
+		error(function(data) {
+			$scope.model = null;
+			$scope.error = data;
+			$location.path('/error');
+		});
+	};
+
+	$scope.delField = function() {
+		$http({
+			method: 'DELETE',
+			url: '/api/resource/model/schema',
+			params: {
+				name: $routeParams.resource,
 				model_name: $scope.model.name,
 				model_collection: $scope.model.collection
 			}
