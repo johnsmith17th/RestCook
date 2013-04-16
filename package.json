@@ -1,0 +1,25 @@
+{
+  "author": {
+    "name": "John Smith",
+    "email": "john.smith.17th@gmail.com"
+  },
+  "name": "restcook",
+  "description": "Build restful data service with nodejs and mongodb.",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "./lib"
+  },
+  "dependencies": {
+    "assert-plus": "0.1.2",
+    "restify": "2.4.1",
+    "mongodb": "1.2.14",
+    "mongoose": "3.6.5"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": ">=0.8"
+  },
+  "readmeFilename": "README.md"
+}

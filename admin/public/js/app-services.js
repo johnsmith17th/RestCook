@@ -1,1 +1,0 @@
-angular.module('AdminApp.services', []).value('version', '0.1');
