@@ -1,2 +1,2 @@
 #RestCook
-Build restful data service with nodejs and mongodb.
+Build resource-oriented restful data service with nodejs and mongodb.
