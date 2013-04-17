@@ -15,11 +15,11 @@ Build resource-oriented restful data service with nodejs and mongodb.
 		},
 		pk: 'key',
 		action: {
-			index: {},
-			post: {},
-			get: {},
-			put: {},
-			del: {}
+			index: {},	// GET /test
+			post: {},	// POST /test
+			get: {},	// GET /test/:key
+			put: {},	// PUT /test/:key
+			del: {}		// DELETE /test/:key
 		}
 	});
 	app.service(3030);
