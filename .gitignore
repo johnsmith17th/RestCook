@@ -170,4 +170,6 @@ node_modules
 
 # project
 config.json
+test.js
+server.js
 *_backup

@@ -1,4 +1,6 @@
-var restify = require('restify');
+var restify = require('restify'),
+	mongoose = require('mongoose'),
+	express = require('express');
 
 var server = restify.createServer({
 	name: 'RestCook',
@@ -8,8 +10,19 @@ server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
-server.get(/.*/, function(req, res, next) {
-	res.send({resource: req.path()});
+var schema = new mongoose.Schema({
+	key: String,
+	value: String
+});
+
+var model = mongoose.model('Test', schema);
+
+mongoose.connect('mongodb://localhost/test');
+
+server.get('/test', function(req, res, next) {
+	model.find().lean().exec(function(err, result) {
+		res.send(200, result);
+	});
 	return next();
 });
 
