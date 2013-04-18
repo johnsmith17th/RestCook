@@ -91,7 +91,7 @@ Or if you want to send your own response:
 
 ##### Use Models
 
-All defined mongoose models are added to application context so that they can be accessed is request context.
+All defined mongoose models are added to application context so that they can be accessed in request context.
 
 	handler: function(req, res, next) {
 		var model = req.app.get('models').MyModel;
