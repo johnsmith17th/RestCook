@@ -1,18 +1,13 @@
 var RestCook = require('../../lib/restcook');
 
 // create application
-var app = new RestCook();
+var app = new RestCook({
+	db: 'mongodb://localhost/test',
+	port: 3030
+});
 
-// setup database
-app.db('mongodb://localhost/test');
-
-// setup resource
+// define resource
 app.resource('test', {
-	//name: 'Test',
-	//desc: 'Description of resource Test',
-	//route: '/test',
-	//model: 'Test',
-	//collection: 'tests',
 	schema: {
 		key: {
 			type: String,
@@ -37,5 +32,4 @@ app.resource('test', {
 	}
 });
 
-// run application
-app.service(3030);
+app.start();
