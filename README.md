@@ -31,7 +31,11 @@ See more examples in test.
 # Core API
 
 #### RestCook([options:Object])
-Create a restful web service application. Optional `options` can be pass.
+Create a restful web service application with `options`:
+
+* name {String} : application name,
+* db {String} : database connection string,
+* port {Number} : port that the server to listen.
 
 #### RestCook#resource(key:String, options:Object)
 Create a resource with `key` and `options`. See resource options below.
