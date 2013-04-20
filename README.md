@@ -5,8 +5,10 @@ Build resource-oriented restful data service with nodejs and mongodb.
 
 	var RestCook = require('restcook');
 
-	var app = new RestCook();
-	app.db('mongodb://localhost/test');
+	var app = new RestCook({
+		db: 'mongodb://localhost/test',
+		port: 3030
+	});
 
 	app.resource('test', {
 		schema: {
@@ -22,23 +24,42 @@ Build resource-oriented restful data service with nodejs and mongodb.
 			del: {}		// DELETE /test/:key
 		}
 	});
-	app.service(3030);
+	app.start();
 
 See more examples in test.
 
 # Core API
 
-#### RestCook(name:String)
-Create a restful web service application. Optional `name` can be pass.
-
-#### RestCook#db(server:String)
-Set mongodb connection string `server`.
+#### RestCook([options:Object])
+Create a restful web service application. Optional `options` can be pass.
 
 #### RestCook#resource(key:String, options:Object)
 Create a resource with `key` and `options`. See resource options below.
 
-#### RestCook#service(port:Number [, callback:Function])
-The run the server and listen at `port`. A `callback` function can be applied.
+#### RestCook#start([callback:Function])
+The run the server. A `callback` function can be applied.
+
+#### RestCook#name
+Get name of application.
+
+#### RestCook#app
+Get express application instance.
+
+#### RestCook#db
+Get or set the database connection string.
+
+#### RestCook#port
+Get or set the port server to listen.
+
+#### RestCook#resources
+Get defined resources.
+
+#### RestCook#schemas
+Get defined schemas.
+
+#### RestCook#models
+Get defined models.
+
 
 # Resource Options
 This library use a JavaScript object to describe resource. The following options are supported:
