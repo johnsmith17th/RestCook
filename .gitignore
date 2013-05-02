@@ -172,4 +172,4 @@ node_modules
 config.json
 test.js
 server.js
-*_backup
+*_backup*

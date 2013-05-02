@@ -1,35 +1,18 @@
-var RestCook = require('../../lib/restcook');
+global.DEBUG = true;
 
-// create application
-var app = new RestCook({
-	db: 'mongodb://localhost/test',
-	port: 3030
-});
+var RestCook = require('../../lib');
 
-// define resource
-app.resource('test', {
-	schema: {
-		key: {
-			type: String,
-			required: true,
-			index: {
-				unique: true,
-				dropDups: true
-			}
-		},
-		value: {
-			type: String,
-			required: true
-		}
+var cases = new RestCook.Resource('cases', {
+	key: {
+		type: String
 	},
-	pk: 'key',
-	action: {
-		index: {},
-		post: {},
-		get: {},
-		put: {},
-		del: {}
+	value: {
+		type: String
 	}
 });
 
-app.start();
+cases.post();
+
+var app = new RestCook();
+app.reg(cases);
+app.run();
